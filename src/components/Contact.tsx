@@ -49,58 +49,45 @@ const personnel: Person[] = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-20 bg-[var(--color-bg)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-3">
-            Contact
-          </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-[var(--color-text-main)] mb-2">
-            Get in Touch
-          </h2>
+    <section id="contact" className="site-section section-shell section-alt">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mb-10 animate-rise">
+          <p className="eyebrow mb-3">Contact</p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-[var(--color-text-main)] mb-2">Get in Touch</h2>
         </div>
 
-        {/* General contact bar */}
-        <div className="bg-[var(--color-surface)] rounded-2xl p-6 shadow-sm flex flex-wrap gap-6 items-center mb-10">
+        <div className="glass-card-strong rounded-2xl p-6 flex flex-wrap gap-6 items-center mb-10">
           <a
             href="tel:7329858226"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition-colors duration-200"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-primary-2)] transition-colors duration-200"
           >
             <Phone className="w-4 h-4 text-[var(--color-primary)]" />
             732-985-8226
           </a>
           <a
             href="mailto:info@marketair.com"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition-colors duration-200"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-primary-2)] transition-colors duration-200"
           >
             <Mail className="w-4 h-4 text-[var(--color-primary)]" />
             info@marketair.com
           </a>
         </div>
 
-        {/* Personnel grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {personnel.map((p) => (
             <div
               key={p.name}
-              className="bg-[var(--color-surface)] rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col gap-4"
+              className="glass-card rounded-2xl p-6 hover:-translate-y-1 hover:border-[var(--color-border-strong)] transition-all duration-300 flex flex-col gap-4"
             >
-              {/* Avatar */}
-              <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
-                <User className="w-5 h-5 text-[var(--color-primary)]" />
+              <div className="w-10 h-10 rounded-xl glass-chip flex items-center justify-center">
+                <User className="w-5 h-5 text-[var(--color-primary-2)]" />
               </div>
 
-              {/* Name & title */}
               <div>
-                <p className="font-bold text-[var(--color-text-main)]">
-                  {p.name}
-                </p>
-                <p className="text-xs text-[var(--color-primary)] font-semibold mt-0.5">
-                  {p.title}
-                </p>
+                <p className="font-bold text-[var(--color-text-main)]">{p.name}</p>
+                <p className="text-xs text-[var(--color-primary-2)] font-semibold mt-0.5">{p.title}</p>
               </div>
 
-              {/* Address */}
               <div className="flex gap-2 items-start">
                 <MapPin className="w-3.5 h-3.5 text-[var(--color-text-muted)] mt-0.5 shrink-0" />
                 <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
@@ -108,7 +95,6 @@ export default function Contact() {
                 </p>
               </div>
 
-              {/* Phones */}
               <div className="flex flex-col gap-0.5">
                 {p.phones.map((ph) => (
                   <p key={ph} className="text-xs text-[var(--color-text-muted)]">
@@ -117,10 +103,9 @@ export default function Contact() {
                 ))}
               </div>
 
-              {/* Email */}
               <a
                 href={`mailto:${p.email}`}
-                className="text-xs font-medium text-[var(--color-primary)] hover:underline"
+                className="text-xs font-medium text-[var(--color-primary-2)] hover:underline"
               >
                 {p.email}
               </a>
