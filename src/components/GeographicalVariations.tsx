@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MapPin, ChevronDown, Phone } from "lucide-react";
 import { US_STATE_PATHS } from "./usStatePaths";
+import { CANADA_OUTLINE_PATH, CANADA_SPLIT_X } from "./canadaOutline";
 
 // ─── Shared data ────────────────────────────────────────────────────────────
 
@@ -153,19 +154,12 @@ type CanadaMapRegion = MapRegion & {
   id: CanadaRegionId;
 };
 
-const MAP_SCALE = 0.62;
+const MAP_SCALE = 0.52;
 const MAP_OFFSET_X = 470;
-const MAP_OFFSET_Y = 330;
+const MAP_OFFSET_Y = 350;
 
 const toCanvasX = (sourceX: number) => MAP_OFFSET_X + sourceX * MAP_SCALE;
 const toCanvasY = (sourceY: number) => MAP_OFFSET_Y + sourceY * MAP_SCALE;
-
-const CANADA_REGION_PATHS: Record<CanadaRegionId, string> = {
-  westernCanada:
-    "M95 -40 L150 -75 L230 -95 L320 -105 L405 -95 L470 -75 L500 -40 L470 -8 L390 8 L300 20 L210 15 L140 5 L100 -15 Z",
-  easternCanada:
-    "M500 -40 L540 -70 L620 -88 L700 -82 L770 -60 L835 -30 L860 5 L845 30 L790 36 L720 30 L640 42 L560 28 L510 10 Z",
-};
 
 const CANADA_REGIONS: CanadaMapRegion[] = [
   {
@@ -181,8 +175,8 @@ const CANADA_REGIONS: CanadaMapRegion[] = [
       "Northwest Territories",
       "Nunavut",
     ],
-    mapPoint: { x: 330, y: -44 },
-    labelPoint: { x: 220, y: 170 },
+    mapPoint: { x: 300, y: -48 },
+    labelPoint: { x: 360, y: 190 },
     labelAnchor: "end",
   },
   {
@@ -197,8 +191,8 @@ const CANADA_REGIONS: CanadaMapRegion[] = [
       "Prince Edward Island",
       "Newfoundland and Labrador",
     ],
-    mapPoint: { x: 690, y: -30 },
-    labelPoint: { x: 1410, y: 170 },
+    mapPoint: { x: 660, y: -36 },
+    labelPoint: { x: 1145, y: 190 },
     labelAnchor: "start",
   },
 ];
@@ -211,7 +205,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["WA", "OR", "ID", "AK"],
     stateNames: ["Washington", "Oregon", "Idaho", "Alaska"],
     mapPoint: { x: 136, y: 88 },
-    labelPoint: { x: 220, y: 360 },
+    labelPoint: { x: 360, y: 330 },
     labelAnchor: "end",
   },
   {
@@ -221,7 +215,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["CA", "AZ", "HI"],
     stateNames: ["California", "Arizona", "Hawaii", "Nevada (west + Las Vegas area)"],
     mapPoint: { x: 138, y: 318 },
-    labelPoint: { x: 220, y: 520 },
+    labelPoint: { x: 360, y: 490 },
     labelAnchor: "end",
   },
   {
@@ -231,7 +225,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["CO", "UT", "WY", "MT", "NV"],
     stateNames: ["Colorado", "Utah", "Wyoming", "Montana", "Nevada (east, except Las Vegas)"],
     mapPoint: { x: 320, y: 254 },
-    labelPoint: { x: 740, y: 190 },
+    labelPoint: { x: 760, y: 220 },
     labelAnchor: "middle",
   },
   {
@@ -241,7 +235,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["TX", "NM", "OK", "AR", "LA"],
     stateNames: ["Texas", "New Mexico", "Oklahoma", "Arkansas", "Louisiana"],
     mapPoint: { x: 454, y: 424 },
-    labelPoint: { x: 720, y: 940 },
+    labelPoint: { x: 820, y: 800 },
     labelAnchor: "middle",
   },
   {
@@ -266,7 +260,7 @@ const US_REGIONS: USMapRegion[] = [
       "West Virginia",
     ],
     mapPoint: { x: 558, y: 242 },
-    labelPoint: { x: 980, y: 190 },
+    labelPoint: { x: 905, y: 220 },
     labelAnchor: "middle",
   },
   {
@@ -276,7 +270,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["ME", "NH", "VT", "MA", "RI", "CT", "NY"],
     stateNames: ["Maine", "New Hampshire", "Vermont", "Massachusetts", "Rhode Island", "Connecticut", "New York (upstate)"],
     mapPoint: { x: 868, y: 134 },
-    labelPoint: { x: 1410, y: 330 },
+    labelPoint: { x: 1145, y: 310 },
     labelAnchor: "start",
   },
   {
@@ -294,7 +288,7 @@ const US_REGIONS: USMapRegion[] = [
       "NYC Metro + Long Island",
     ],
     mapPoint: { x: 808, y: 238 },
-    labelPoint: { x: 1410, y: 480 },
+    labelPoint: { x: 1145, y: 430 },
     labelAnchor: "start",
   },
   {
@@ -304,7 +298,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["NC", "SC"],
     stateNames: ["North Carolina", "South Carolina"],
     mapPoint: { x: 754, y: 346 },
-    labelPoint: { x: 1410, y: 620 },
+    labelPoint: { x: 1145, y: 550 },
     labelAnchor: "start",
   },
   {
@@ -314,7 +308,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["GA", "AL", "TN", "MS"],
     stateNames: ["Georgia", "Alabama", "Tennessee", "Mississippi", "Western Florida panhandle"],
     mapPoint: { x: 692, y: 398 },
-    labelPoint: { x: 1410, y: 770 },
+    labelPoint: { x: 1145, y: 670 },
     labelAnchor: "start",
   },
   {
@@ -324,7 +318,7 @@ const US_REGIONS: USMapRegion[] = [
     stateCodes: ["FL"],
     stateNames: ["Florida (except panhandle west of GA/AL border)"],
     mapPoint: { x: 802, y: 500 },
-    labelPoint: { x: 1410, y: 910 },
+    labelPoint: { x: 1145, y: 790 },
     labelAnchor: "start",
   },
 ];
@@ -411,152 +405,167 @@ function VersionInteractive() {
       </div>
 
       <div className="glass-card-strong rounded-2xl p-3 md:p-4">
-        <div className="overflow-x-auto">
-          <div
-            className="min-w-[1520px]"
-            onMouseLeave={() => setHoveredRegion(null)}
+        <div onMouseLeave={() => setHoveredRegion(null)}>
+          <svg
+            viewBox="0 0 1500 940"
+            className="w-full h-auto"
+            role="img"
+            aria-label="United States and Canada manufacturer representative territory map"
           >
-            <svg
-              viewBox="0 0 1800 1100"
-              className="w-full h-auto"
-              role="img"
-              aria-labelledby="rep-map-title"
-            >
-              <title id="rep-map-title">
-                United States and Canada manufacturer representative territory map
-              </title>
+            <g transform={`translate(${MAP_OFFSET_X} ${MAP_OFFSET_Y}) scale(${MAP_SCALE})`}>
+              <defs>
+                <clipPath id="canada-west-half" clipPathUnits="objectBoundingBox">
+                  <rect x="0" y="0" width="0.5" height="1" />
+                </clipPath>
+                <clipPath id="canada-east-half" clipPathUnits="objectBoundingBox">
+                  <rect x="0.5" y="0" width="0.5" height="1" />
+                </clipPath>
+              </defs>
 
-              <g transform={`translate(${MAP_OFFSET_X} ${MAP_OFFSET_Y}) scale(${MAP_SCALE})`}>
-                {CANADA_REGIONS.map((region) => {
-                  const isActive = region.id === activeRegionId;
-                  const fillColor = isActive
-                    ? REGION_FILL_ACTIVE[region.id]
-                    : REGION_FILL[region.id];
-                  const strokeColor = isActive
+              <path
+                d={CANADA_OUTLINE_PATH}
+                fill={
+                  activeRegionId === "westernCanada"
+                    ? REGION_FILL_ACTIVE.westernCanada
+                    : REGION_FILL.westernCanada
+                }
+                clipPath="url(#canada-west-half)"
+                className="cursor-pointer transition-colors duration-150"
+                onMouseEnter={() => activate("westernCanada")}
+                onClick={() => toggleSelection("westernCanada")}
+              />
+              <path
+                d={CANADA_OUTLINE_PATH}
+                fill={
+                  activeRegionId === "easternCanada"
+                    ? REGION_FILL_ACTIVE.easternCanada
+                    : REGION_FILL.easternCanada
+                }
+                clipPath="url(#canada-east-half)"
+                className="cursor-pointer transition-colors duration-150"
+                onMouseEnter={() => activate("easternCanada")}
+                onClick={() => toggleSelection("easternCanada")}
+              />
+              <line
+                x1={CANADA_SPLIT_X}
+                y1={-170}
+                x2={CANADA_SPLIT_X}
+                y2={70}
+                stroke="rgba(174, 226, 255, 0.75)"
+                strokeWidth={2}
+              />
+              <path
+                d={CANADA_OUTLINE_PATH}
+                fill="none"
+                stroke="rgba(174, 226, 255, 0.7)"
+                strokeWidth={2.2}
+                pointerEvents="none"
+              />
+
+              {Object.entries(US_STATE_PATHS).map(([code, state]) => {
+                const regionId = STATE_TO_REGION[code];
+                const isActive = regionId ? regionId === activeRegionId : false;
+                const fillColor = regionId
+                  ? isActive
+                    ? REGION_FILL_ACTIVE[regionId]
+                    : REGION_FILL[regionId]
+                  : "rgba(186, 218, 238, 0.65)";
+                const strokeColor = regionId
+                  ? isActive
                     ? "rgba(95, 201, 255, 1)"
-                    : "rgba(174, 226, 255, 0.55)";
-
-                  return (
-                    <path
-                      key={region.id}
-                      d={CANADA_REGION_PATHS[region.id]}
-                      fill={fillColor}
-                      stroke={strokeColor}
-                      strokeWidth={isActive ? 3.4 : 2.2}
-                      className="cursor-pointer transition-colors duration-150"
-                      onMouseEnter={() => activate(region.id)}
-                      onClick={() => toggleSelection(region.id)}
-                    />
-                  );
-                })}
-
-                {Object.entries(US_STATE_PATHS).map(([code, state]) => {
-                  const regionId = STATE_TO_REGION[code];
-                  const isActive = regionId ? regionId === activeRegionId : false;
-                  const fillColor = regionId
-                    ? isActive
-                      ? REGION_FILL_ACTIVE[regionId]
-                      : REGION_FILL[regionId]
-                    : "rgba(186, 218, 238, 0.65)";
-                  const strokeColor = regionId
-                    ? isActive
-                      ? "rgba(95, 201, 255, 1)"
-                      : fillColor
-                    : "rgba(210, 236, 255, 0.85)";
-
-                  return (
-                    <path
-                      key={code}
-                      d={state.d}
-                      fill={fillColor}
-                      stroke={strokeColor}
-                      strokeWidth={isActive ? 3.2 : 2}
-                      className={regionId ? "cursor-pointer transition-colors duration-150" : "transition-colors duration-150"}
-                      onMouseEnter={() => regionId && activate(regionId)}
-                      onClick={() => regionId && toggleSelection(regionId)}
-                    >
-                      <title>{state.name}</title>
-                    </path>
-                  );
-                })}
-              </g>
-
-              {MAP_REGIONS.map((region) => {
-                const isActive = region.id === activeRegionId;
-                const mapX = toCanvasX(region.mapPoint.x);
-                const mapY = toCanvasY(region.mapPoint.y);
-                const lineEndX =
-                  region.labelAnchor === "start"
-                    ? region.labelPoint.x - 14
-                    : region.labelAnchor === "end"
-                    ? region.labelPoint.x + 14
-                    : region.labelPoint.x;
-                const stateLines = wrapStates(
-                  region.stateNames,
-                  region.labelAnchor === "middle" ? 46 : 38
-                );
+                    : fillColor
+                  : "rgba(210, 236, 255, 0.85)";
 
                 return (
-                  <g
-                    key={region.id}
-                    className="cursor-pointer"
-                    onMouseEnter={() => activate(region.id)}
-                    onClick={() => toggleSelection(region.id)}
-                  >
-                    <line
-                      x1={mapX}
-                      y1={mapY}
-                      x2={lineEndX}
-                      y2={region.labelPoint.y}
-                      stroke={isActive ? "rgba(146, 214, 255, 0.95)" : "rgba(146, 214, 255, 0.5)"}
-                      strokeWidth={isActive ? 2.6 : 1.8}
-                    />
-                    <circle
-                      cx={mapX}
-                      cy={mapY}
-                      r={isActive ? 5.8 : 4.6}
-                      fill={isActive ? "rgba(95, 201, 255, 1)" : "rgba(123, 187, 224, 0.8)"}
-                    />
-                    <text
-                      x={region.labelPoint.x}
-                      y={region.labelPoint.y - 16}
-                      textAnchor={region.labelAnchor}
-                      fill={isActive ? "rgba(146, 214, 255, 1)" : "rgba(160, 192, 216, 1)"}
-                      fontSize="12"
-                      fontWeight="700"
-                      style={{ letterSpacing: "0.08em" }}
-                    >
-                      {region.territory}
-                    </text>
-                    <text
-                      x={region.labelPoint.x}
-                      y={region.labelPoint.y}
-                      textAnchor={region.labelAnchor}
-                      fill={isActive ? "rgba(233, 246, 255, 1)" : "rgba(233, 246, 255, 0.9)"}
-                      fontSize="16"
-                      fontWeight="800"
-                    >
-                      {region.rep}
-                    </text>
-                    {isActive &&
-                      stateLines.map((line, index) => (
-                        <text
-                          key={`${region.id}-states-${index}`}
-                          x={region.labelPoint.x}
-                          y={region.labelPoint.y + 26 + index * 18}
-                          textAnchor={region.labelAnchor}
-                          fill="rgba(160, 192, 216, 1)"
-                          fontSize="13"
-                          fontWeight="500"
-                        >
-                          {line}
-                        </text>
-                      ))}
-                  </g>
+                  <path
+                    key={code}
+                    d={state.d}
+                    fill={fillColor}
+                    stroke={strokeColor}
+                    strokeWidth={isActive ? 3.2 : 2}
+                    className={regionId ? "cursor-pointer transition-colors duration-150" : "transition-colors duration-150"}
+                    onMouseEnter={() => regionId && activate(regionId)}
+                    onClick={() => regionId && toggleSelection(regionId)}
+                  />
                 );
               })}
-            </svg>
-          </div>
+            </g>
+
+            {MAP_REGIONS.map((region) => {
+              const isActive = region.id === activeRegionId;
+              const mapX = toCanvasX(region.mapPoint.x);
+              const mapY = toCanvasY(region.mapPoint.y);
+              const lineEndX =
+                region.labelAnchor === "start"
+                  ? region.labelPoint.x - 10
+                  : region.labelAnchor === "end"
+                  ? region.labelPoint.x + 10
+                  : region.labelPoint.x;
+              const stateLines = wrapStates(
+                region.stateNames,
+                region.labelAnchor === "middle" ? 44 : 36
+              );
+
+              return (
+                <g
+                  key={region.id}
+                  className="cursor-pointer"
+                  onMouseEnter={() => activate(region.id)}
+                  onClick={() => toggleSelection(region.id)}
+                >
+                  <line
+                    x1={mapX}
+                    y1={mapY}
+                    x2={lineEndX}
+                    y2={region.labelPoint.y}
+                    stroke={isActive ? "rgba(146, 214, 255, 0.95)" : "rgba(146, 214, 255, 0.5)"}
+                    strokeWidth={isActive ? 2.6 : 1.8}
+                  />
+                  <circle
+                    cx={mapX}
+                    cy={mapY}
+                    r={isActive ? 5.8 : 4.6}
+                    fill={isActive ? "rgba(95, 201, 255, 1)" : "rgba(123, 187, 224, 0.8)"}
+                  />
+                  <text
+                    x={region.labelPoint.x}
+                    y={region.labelPoint.y - 16}
+                    textAnchor={region.labelAnchor}
+                    fill={isActive ? "rgba(146, 214, 255, 1)" : "rgba(160, 192, 216, 1)"}
+                    fontSize="12"
+                    fontWeight="700"
+                    style={{ letterSpacing: "0.08em" }}
+                  >
+                    {region.territory}
+                  </text>
+                  <text
+                    x={region.labelPoint.x}
+                    y={region.labelPoint.y}
+                    textAnchor={region.labelAnchor}
+                    fill={isActive ? "rgba(233, 246, 255, 1)" : "rgba(233, 246, 255, 0.9)"}
+                    fontSize="16"
+                    fontWeight="800"
+                  >
+                    {region.rep}
+                  </text>
+                  {isActive &&
+                    stateLines.map((line, index) => (
+                      <text
+                        key={`${region.id}-states-${index}`}
+                        x={region.labelPoint.x}
+                        y={region.labelPoint.y + 24 + index * 17}
+                        textAnchor={region.labelAnchor}
+                        fill="rgba(160, 192, 216, 1)"
+                        fontSize="12.5"
+                        fontWeight="500"
+                      >
+                        {line}
+                      </text>
+                    ))}
+                </g>
+              );
+            })}
+          </svg>
         </div>
 
         <p className="mt-4 text-xs text-[var(--color-text-muted)]">
