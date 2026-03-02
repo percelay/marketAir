@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="relative h-screen min-h-[600px] flex items-center">
       {/* Background image */}
       <Image
-        src="/images/hvac2.jpeg"
+        src="/images/hvac3.jpg"
         alt="HVACR installation"
         fill
         className="object-cover"
