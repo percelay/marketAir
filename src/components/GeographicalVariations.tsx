@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, ChevronDown, Phone, Users } from "lucide-react";
+import { MapPin, ChevronDown, Phone } from "lucide-react";
+import { US_STATE_PATHS } from "./usStatePaths";
 
 // ─── Shared data ────────────────────────────────────────────────────────────
 
@@ -115,209 +116,376 @@ function VersionStatic() {
   );
 }
 
-// ─── Version 2 — Interactive hover cards ────────────────────────────────────
+// ─── Version 2 — Interactive U.S. map ────────────────────────────────────────
+
+type USRegionId =
+  | "pacificNorthwest"
+  | "westHawaii"
+  | "mountainWest"
+  | "southCentral"
+  | "midwest"
+  | "newEnglandUpstate"
+  | "midAtlantic"
+  | "carolinas"
+  | "southeast"
+  | "florida";
+
+type USRegion = {
+  id: USRegionId;
+  territory: string;
+  rep: string;
+  stateCodes: string[];
+  stateNames: string[];
+  notes?: string;
+  mapPoint: { x: number; y: number };
+  labelPoint: { x: number; y: number };
+  labelAnchor: "start" | "middle" | "end";
+};
+
+const US_REGIONS: USRegion[] = [
+  {
+    id: "pacificNorthwest",
+    territory: "Pacific Northwest",
+    rep: "Pacific NW Reps",
+    stateCodes: ["WA", "OR", "ID", "AK"],
+    stateNames: ["Washington", "Oregon", "Idaho", "Alaska"],
+    mapPoint: { x: 136, y: 88 },
+    labelPoint: { x: 78, y: 98 },
+    labelAnchor: "end",
+  },
+  {
+    id: "westHawaii",
+    territory: "West / Hawaii",
+    rep: "Denco",
+    stateCodes: ["CA", "AZ", "HI"],
+    stateNames: ["California", "Arizona", "Hawaii", "Nevada (west + Las Vegas area)"],
+    mapPoint: { x: 138, y: 318 },
+    labelPoint: { x: 78, y: 246 },
+    labelAnchor: "end",
+  },
+  {
+    id: "mountainWest",
+    territory: "Mountain / Interior West",
+    rep: "Open",
+    stateCodes: ["CO", "UT", "WY", "MT", "NV"],
+    stateNames: ["Colorado", "Utah", "Wyoming", "Montana", "Nevada (east, except Las Vegas)"],
+    mapPoint: { x: 320, y: 254 },
+    labelPoint: { x: 382, y: 124 },
+    labelAnchor: "middle",
+  },
+  {
+    id: "southCentral",
+    territory: "South Central",
+    rep: "Hugh M. Cunningham Companies",
+    stateCodes: ["TX", "NM", "OK", "AR", "LA"],
+    stateNames: ["Texas", "New Mexico", "Oklahoma", "Arkansas", "Louisiana"],
+    mapPoint: { x: 454, y: 424 },
+    labelPoint: { x: 388, y: 554 },
+    labelAnchor: "middle",
+  },
+  {
+    id: "midwest",
+    territory: "Midwest",
+    rep: "Moore Sales Corp",
+    stateCodes: ["ND", "SD", "IA", "NE", "MN", "WI", "IL", "KS", "MO", "KY", "MI", "OH", "WV", "IN"],
+    stateNames: [
+      "North Dakota",
+      "South Dakota",
+      "Iowa",
+      "Nebraska",
+      "Minnesota",
+      "Wisconsin",
+      "Illinois",
+      "Kansas",
+      "Missouri",
+      "Kentucky",
+      "Michigan",
+      "Ohio",
+      "Indiana",
+      "West Virginia",
+    ],
+    mapPoint: { x: 558, y: 242 },
+    labelPoint: { x: 620, y: 104 },
+    labelAnchor: "middle",
+  },
+  {
+    id: "newEnglandUpstate",
+    territory: "New England / Upstate NY",
+    rep: "Pilgrim Sales",
+    stateCodes: ["ME", "NH", "VT", "MA", "RI", "CT", "NY"],
+    stateNames: ["Maine", "New Hampshire", "Vermont", "Massachusetts", "Rhode Island", "Connecticut", "New York (upstate)"],
+    mapPoint: { x: 868, y: 134 },
+    labelPoint: { x: 1010, y: 98 },
+    labelAnchor: "start",
+  },
+  {
+    id: "midAtlantic",
+    territory: "Mid-Atlantic",
+    rep: "Kehoe Company",
+    stateCodes: ["NJ", "PA", "MD", "DE", "VA", "DC"],
+    stateNames: [
+      "New Jersey",
+      "Pennsylvania",
+      "Maryland",
+      "Delaware",
+      "Virginia",
+      "District of Columbia",
+      "NYC Metro + Long Island",
+    ],
+    mapPoint: { x: 808, y: 238 },
+    labelPoint: { x: 1010, y: 170 },
+    labelAnchor: "start",
+  },
+  {
+    id: "carolinas",
+    territory: "Carolinas",
+    rep: "Mid South Marketing",
+    stateCodes: ["NC", "SC"],
+    stateNames: ["North Carolina", "South Carolina"],
+    mapPoint: { x: 754, y: 346 },
+    labelPoint: { x: 1010, y: 252 },
+    labelAnchor: "start",
+  },
+  {
+    id: "southeast",
+    territory: "Southeast",
+    rep: "Phil Thomas",
+    stateCodes: ["GA", "AL", "TN", "MS"],
+    stateNames: ["Georgia", "Alabama", "Tennessee", "Mississippi", "Western Florida panhandle"],
+    mapPoint: { x: 692, y: 398 },
+    labelPoint: { x: 1010, y: 334 },
+    labelAnchor: "start",
+  },
+  {
+    id: "florida",
+    territory: "Florida",
+    rep: "AHR Sales",
+    stateCodes: ["FL"],
+    stateNames: ["Florida (except panhandle west of GA/AL border)"],
+    mapPoint: { x: 802, y: 500 },
+    labelPoint: { x: 1010, y: 434 },
+    labelAnchor: "start",
+  },
+];
+
+const REGION_FILL: Record<USRegionId, string> = {
+  pacificNorthwest: "#cfe8ff",
+  westHawaii: "#ffd8be",
+  mountainWest: "#ffefbf",
+  southCentral: "#ffd1c2",
+  midwest: "#d8f0d0",
+  newEnglandUpstate: "#c7ecee",
+  midAtlantic: "#d6e3ff",
+  carolinas: "#ffe2b8",
+  southeast: "#f6d8c6",
+  florida: "#fdd3dc",
+};
+
+const REGION_FILL_ACTIVE: Record<USRegionId, string> = {
+  pacificNorthwest: "#8ab8ea",
+  westHawaii: "#ffb27e",
+  mountainWest: "#f6cf6b",
+  southCentral: "#fca784",
+  midwest: "#9fd286",
+  newEnglandUpstate: "#87d9dd",
+  midAtlantic: "#9db8fb",
+  carolinas: "#f8bd69",
+  southeast: "#e89d74",
+  florida: "#f49db0",
+};
+
+const STATE_TO_REGION = US_REGIONS.reduce((acc, region) => {
+  region.stateCodes.forEach((code) => {
+    acc[code] = region.id;
+  });
+  return acc;
+}, {} as Record<string, USRegionId>);
+
+function wrapStates(states: string[], maxLineLength = 36) {
+  const lines: string[] = [];
+  let currentLine = "";
+
+  states.forEach((state) => {
+    if (!currentLine) {
+      currentLine = state;
+      return;
+    }
+
+    const withComma = `${currentLine}, ${state}`;
+    if (withComma.length <= maxLineLength) {
+      currentLine = withComma;
+      return;
+    }
+
+    lines.push(currentLine);
+    currentLine = state;
+  });
+
+  if (currentLine) lines.push(currentLine);
+
+  return lines;
+}
 
 function VersionInteractive() {
-  const [active, setActive] = useState<number | null>(null);
-  const activeRep = active !== null ? reps[active] : null;
-  const activeCountry =
-    activeRep?.territory.includes("Canada") ? "canada" : activeRep ? "usa" : null;
+  const [hoveredRegion, setHoveredRegion] = useState<USRegionId | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<USRegionId | null>(null);
+  const activeRegionId = hoveredRegion ?? selectedRegion;
 
-  const hotspots = [
-    { repIndex: 0, pinX: 255, pinY: 188, labelX: 140, labelY: 122, align: "right" as const },
-    { repIndex: 1, pinX: 625, pinY: 198, labelX: 850, labelY: 126, align: "left" as const },
-    { repIndex: 2, pinX: 230, pinY: 286, labelX: 112, labelY: 264, align: "right" as const },
-    { repIndex: 3, pinX: 250, pinY: 378, labelX: 112, labelY: 392, align: "right" as const },
-    { repIndex: 4, pinX: 454, pinY: 422, labelX: 468, labelY: 554, align: "center" as const },
-    { repIndex: 5, pinX: 550, pinY: 350, labelX: 548, labelY: 264, align: "center" as const },
-    { repIndex: 6, pinX: 715, pinY: 320, labelX: 870, labelY: 272, align: "left" as const },
-    { repIndex: 7, pinX: 700, pinY: 360, labelX: 890, labelY: 350, align: "left" as const },
-    { repIndex: 8, pinX: 698, pinY: 418, labelX: 870, labelY: 426, align: "left" as const },
-    { repIndex: 9, pinX: 618, pinY: 448, labelX: 610, labelY: 568, align: "center" as const },
-    { repIndex: 10, pinX: 714, pinY: 505, labelX: 822, labelY: 570, align: "left" as const },
-    { repIndex: 11, pinX: 368, pinY: 346, labelX: 302, labelY: 256, align: "right" as const },
-  ];
+  const activate = (id: USRegionId) => setHoveredRegion(id);
+  const toggleSelection = (id: USRegionId) =>
+    setSelectedRegion((prev) => (prev === id ? null : id));
 
   return (
     <div>
       <div className="mb-6">
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[var(--color-primary)] text-xs font-semibold uppercase tracking-widest">
-          Version 2 — Interactive Region Select
+          Version 2 — Interactive U.S. Territory Map
         </span>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6 items-start">
-        <div className="lg:col-span-2">
+      <div className="rounded-2xl border border-gray-200 bg-gradient-to-b from-orange-50/40 to-white p-3 md:p-4">
+        <div className="overflow-x-auto">
           <div
-            onMouseLeave={() => setActive(null)}
-            className="relative overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-b from-orange-50/40 to-white p-3"
+            className="min-w-[1080px]"
+            onMouseLeave={() => setHoveredRegion(null)}
           >
-            <svg viewBox="0 0 1000 620" className="w-full h-auto">
-              {/* Canada */}
-              <path
-                d="M130 165 L170 145 L230 136 L300 120 L360 128 L425 112 L500 118 L575 103 L650 112 L724 125 L782 147 L828 185 L790 214 L742 222 L680 210 L622 220 L560 212 L495 225 L430 212 L362 224 L300 210 L244 216 L188 201 L148 183 Z"
-                className={`transition-colors duration-200 ${
-                  activeCountry === "canada"
-                    ? "fill-orange-100 stroke-orange-500"
-                    : "fill-slate-100 stroke-slate-400"
-                }`}
-                strokeWidth={2}
-              />
+            <svg
+              viewBox="0 0 1200 620"
+              className="w-full h-auto"
+              role="img"
+              aria-labelledby="us-map-title"
+            >
+              <title id="us-map-title">
+                United States manufacturer representative territory map
+              </title>
 
-              {/* USA */}
-              <path
-                d="M170 256 L210 238 L270 242 L320 252 L370 246 L430 256 L490 250 L560 258 L620 246 L676 258 L730 282 L764 318 L748 346 L766 392 L744 432 L705 465 L650 472 L612 456 L575 470 L532 465 L502 452 L460 462 L410 458 L368 447 L332 422 L292 423 L254 405 L228 377 L200 345 L172 309 Z"
-                className={`transition-colors duration-200 ${
-                  activeCountry === "usa"
-                    ? "fill-orange-50 stroke-orange-500"
-                    : "fill-white stroke-slate-500"
-                }`}
-                strokeWidth={2}
-              />
+              <g>
+                {Object.entries(US_STATE_PATHS).map(([code, state]) => {
+                  const regionId = STATE_TO_REGION[code];
+                  const isActive = regionId ? regionId === activeRegionId : false;
+                  const fillColor = regionId
+                    ? isActive
+                      ? REGION_FILL_ACTIVE[regionId]
+                      : REGION_FILL[regionId]
+                    : "#e2e8f0";
+                  const strokeColor = regionId
+                    ? isActive
+                      ? "#ea580c"
+                      : fillColor
+                    : "#ffffff";
 
-              {/* Alaska */}
-              <path
-                d="M120 460 L150 450 L186 465 L172 492 L138 500 L108 482 Z"
-                className="fill-slate-100 stroke-slate-400"
-                strokeWidth={1.5}
-              />
+                  return (
+                    <path
+                      key={code}
+                      d={state.d}
+                      fill={fillColor}
+                      stroke={strokeColor}
+                      strokeWidth={isActive ? 2 : 1.1}
+                      className={regionId ? "cursor-pointer transition-colors duration-150" : "transition-colors duration-150"}
+                      onMouseEnter={() => regionId && activate(regionId)}
+                      onClick={() => regionId && toggleSelection(regionId)}
+                    >
+                      <title>{state.name}</title>
+                    </path>
+                  );
+                })}
+              </g>
 
-              {/* Hawaii */}
-              <circle cx={265} cy={525} r={5} className="fill-slate-300" />
-              <circle cx={282} cy={536} r={4} className="fill-slate-300" />
-              <circle cx={301} cy={542} r={3.5} className="fill-slate-300" />
-
-              {/* Labels */}
-              <text x={490} y={174} textAnchor="middle" className="fill-slate-500 text-[20px] font-semibold">
-                Canada
-              </text>
-              <text x={500} y={352} textAnchor="middle" className="fill-slate-500 text-[20px] font-semibold">
+              <text
+                x={520}
+                y={592}
+                textAnchor="middle"
+                fill="#64748b"
+                fontSize="14"
+                fontWeight="600"
+              >
                 United States
               </text>
 
-              {/* Connector lines and pins */}
-              {hotspots.map((spot) => {
-                const rep = reps[spot.repIndex];
-                const isActive = active === spot.repIndex;
+              {US_REGIONS.map((region) => {
+                const isActive = region.id === activeRegionId;
+                const lineEndX =
+                  region.labelAnchor === "start"
+                    ? region.labelPoint.x - 8
+                    : region.labelAnchor === "end"
+                    ? region.labelPoint.x + 8
+                    : region.labelPoint.x;
+                const stateLines = wrapStates(
+                  region.stateNames,
+                  region.labelAnchor === "middle" ? 40 : 34
+                );
 
                 return (
                   <g
-                    key={rep.territory}
-                    onMouseEnter={() => setActive(spot.repIndex)}
-                    onClick={() => setActive(spot.repIndex)}
+                    key={region.id}
                     className="cursor-pointer"
+                    onMouseEnter={() => activate(region.id)}
+                    onClick={() => toggleSelection(region.id)}
                   >
                     <line
-                      x1={spot.pinX}
-                      y1={spot.pinY}
-                      x2={spot.labelX}
-                      y2={spot.labelY}
-                      className={`transition-colors duration-200 ${
-                        isActive ? "stroke-orange-500" : "stroke-slate-400"
-                      }`}
-                      strokeWidth={2}
+                      x1={region.mapPoint.x}
+                      y1={region.mapPoint.y}
+                      x2={lineEndX}
+                      y2={region.labelPoint.y}
+                      stroke={isActive ? "#ea580c" : "#94a3b8"}
+                      strokeWidth={isActive ? 2.6 : 1.8}
                     />
                     <circle
-                      cx={spot.pinX}
-                      cy={spot.pinY}
-                      r={7}
-                      className={`transition-colors duration-200 ${
-                        isActive ? "fill-orange-500" : "fill-slate-500"
-                      }`}
+                      cx={region.mapPoint.x}
+                      cy={region.mapPoint.y}
+                      r={isActive ? 5.8 : 4.6}
+                      fill={isActive ? "#ea580c" : "#64748b"}
                     />
-                    <circle
-                      cx={spot.pinX}
-                      cy={spot.pinY}
-                      r={11}
-                      className={`transition-all duration-200 ${
-                        isActive ? "stroke-orange-500 opacity-80" : "stroke-transparent opacity-0"
-                      }`}
-                      strokeWidth={2}
-                      fill="none"
-                    />
+                    <text
+                      x={region.labelPoint.x}
+                      y={region.labelPoint.y - 16}
+                      textAnchor={region.labelAnchor}
+                      fill={isActive ? "#9a3412" : "#64748b"}
+                      fontSize="12"
+                      fontWeight="700"
+                      style={{ letterSpacing: "0.08em" }}
+                    >
+                      {region.territory}
+                    </text>
+                    <text
+                      x={region.labelPoint.x}
+                      y={region.labelPoint.y}
+                      textAnchor={region.labelAnchor}
+                      fill={isActive ? "#9a3412" : "#1f2937"}
+                      fontSize="16"
+                      fontWeight="800"
+                    >
+                      {region.rep}
+                    </text>
+                    {isActive &&
+                      stateLines.map((line, index) => (
+                        <text
+                          key={`${region.id}-states-${index}`}
+                          x={region.labelPoint.x}
+                          y={region.labelPoint.y + 18 + index * 14}
+                          textAnchor={region.labelAnchor}
+                          fill="#475569"
+                          fontSize="11.5"
+                          fontWeight="500"
+                        >
+                          {line}
+                        </text>
+                      ))}
                   </g>
                 );
               })}
             </svg>
-
-            {hotspots.map((spot) => {
-              const rep = reps[spot.repIndex];
-              const isActive = active === spot.repIndex;
-              const left = `${(spot.labelX / 1000) * 100}%`;
-              const top = `${(spot.labelY / 620) * 100}%`;
-              const transform =
-                spot.align === "left"
-                  ? "translate(-100%, -50%)"
-                  : spot.align === "center"
-                  ? "translate(-50%, -50%)"
-                  : "translate(0, -50%)";
-
-              return (
-                <button
-                  key={`${rep.territory}-label`}
-                  onMouseEnter={() => setActive(spot.repIndex)}
-                  onFocus={() => setActive(spot.repIndex)}
-                  onClick={() => setActive(spot.repIndex)}
-                  className={`absolute z-10 px-3 py-1.5 rounded-lg border text-xs md:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
-                    isActive
-                      ? "bg-orange-500 border-orange-500 text-white shadow-sm"
-                      : "bg-white border-gray-200 text-[var(--color-text-main)] hover:border-orange-400 hover:text-orange-600"
-                  }`}
-                  style={{ left, top, transform }}
-                >
-                  {rep.territory}
-                </button>
-              );
-            })}
           </div>
         </div>
 
-        <div className="lg:col-span-1 flex items-start">
-          {activeRep ? (
-            <div className="w-full bg-[var(--color-surface)] rounded-2xl p-8 shadow-sm border border-gray-100 transition-all duration-200">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-[var(--color-primary)] flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest font-semibold text-[var(--color-primary)]">
-                    Territory
-                  </p>
-                  <p className="font-bold text-[var(--color-text-main)] text-lg">
-                    {activeRep.territory}
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-[var(--color-bg)] rounded-xl p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-1">
-                    States / Provinces
-                  </p>
-                  <p className="text-[var(--color-text-main)] font-medium text-sm leading-relaxed">
-                    {activeRep.states}
-                  </p>
-                </div>
-                <div className="bg-[var(--color-bg)] rounded-xl p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-1">
-                    Representative
-                  </p>
-                  <p className="text-[var(--color-primary)] font-bold text-xl">
-                    {activeRep.rep}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="w-full bg-[var(--color-surface)] rounded-2xl p-8 border border-dashed border-gray-200 flex flex-col items-center justify-center text-center min-h-[240px] gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center">
-                <Users className="w-6 h-6 text-[var(--color-primary)]" />
-              </div>
-              <p className="text-[var(--color-text-muted)] text-sm">
-                Hover or click a region to see the assigned representative.
-              </p>
-            </div>
-          )}
-        </div>
+        <p className="mt-4 text-xs text-[var(--color-text-muted)]">
+          Hover a bordered U.S. region or its partner name to reveal the states
+          served under that partner.
+        </p>
+        <p className="mt-1 text-xs text-[var(--color-text-muted)]">
+          NY, NV, and FL include sub-state splits in your territory notes; this
+          map colors those states by their primary region for clarity.
+        </p>
       </div>
     </div>
   );
