@@ -1,26 +1,47 @@
 import { Building2, Globe, Package, Truck } from "lucide-react";
 
 const highlights = [
-  { icon: Building2, label: "Founded 1986" },
-  { icon: Globe, label: "USA & Canada" },
-  { icon: Package, label: "Commercial & Residential" },
-  { icon: Truck, label: "Central Warehouse" },
+  { icon: Building2, label: "Founded 1986"            },
+  { icon: Globe,     label: "USA & Canada"             },
+  { icon: Package,   label: "Commercial & Residential" },
+  { icon: Truck,     label: "Central Warehouse"        },
 ];
 
 export default function About() {
   return (
-    <section id="about" className="py-20 bg-[var(--color-surface)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-24 section-alt relative overflow-hidden">
+
+      {/* Ambient glow */}
+      <div
+        className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(30,111,168,0.12) 0%, transparent 70%)",
+          transform: "translate(30%, -30%)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
+
           {/* Text */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-3">
+            <p
+              className="text-xs font-bold uppercase tracking-widest mb-3"
+              style={{ color: "var(--color-primary)" }}
+            >
               About
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold text-[var(--color-text-main)] mb-6 leading-tight">
-              MarketAir, Inc.
+            <h2
+              className="text-3xl lg:text-4xl font-bold mb-6 leading-tight"
+              style={{ color: "var(--color-text-main)" }}
+            >
+              MarketAir,{" "}
+              <span className="gradient-text">Inc.</span>
             </h2>
-            <div className="space-y-4 text-[var(--color-text-muted)] leading-relaxed">
+            <div
+              className="space-y-4 leading-relaxed text-[15px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
               <p>
                 Originally founded as a manufacturer&apos;s representative company by
                 Gerry Spanger in April 1986, MarketAir, Inc. reinvented itself in
@@ -52,17 +73,28 @@ export default function About() {
             {highlights.map(({ icon: Icon, label }) => (
               <div
                 key={label}
-                className="bg-[var(--color-bg)] rounded-2xl p-6 shadow-sm flex flex-col items-start gap-3 hover:-translate-y-1 transition-transform duration-200"
+                className="glass-2 rounded-2xl p-6 flex flex-col items-start gap-4 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-border-3)]"
+                style={{ borderColor: "var(--color-border)" }}
               >
-                <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-[var(--color-primary)]" />
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(91,202,247,0.18) 0%, rgba(30,111,168,0.12) 100%)",
+                    border: "1px solid rgba(91,202,247,0.20)",
+                  }}
+                >
+                  <Icon className="w-5 h-5" style={{ color: "var(--color-primary)" }} />
                 </div>
-                <span className="font-semibold text-[var(--color-text-main)] text-sm">
+                <span
+                  className="font-semibold text-sm leading-snug"
+                  style={{ color: "var(--color-text-main)" }}
+                >
                   {label}
                 </span>
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>

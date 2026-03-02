@@ -157,19 +157,18 @@ const categories = [...new Set(products.map((p) => p.category))];
 
 export default function CataloguePage() {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)]">
-      {/* Header */}
-      <div className="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+    <div className="min-h-screen">
+      <div className="sticky top-0 z-40 glass-header">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-[var(--color-primary)] flex items-center justify-center">
-              <Wind className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-lg glass-chip flex items-center justify-center">
+              <Wind className="w-4 h-4 text-[var(--color-primary)]" />
             </div>
             <span className="font-bold text-sm text-[var(--color-text-main)]">MarketAir Product Catalogue</span>
           </div>
           <button
             onClick={() => window.close()}
-            className="flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-primary)] transition-colors duration-200"
+            className="btn-glass px-3 py-1.5 text-xs"
           >
             <X className="w-4 h-4" />
             Close
@@ -177,30 +176,26 @@ export default function CataloguePage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero text */}
-        <div className="mb-12">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-2">
-            Product Catalogue
-          </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+        <div className="glass-card-strong rounded-3xl p-6 sm:p-8 mb-12 animate-rise">
+          <p className="eyebrow mb-2">Product Catalogue</p>
           <h1 className="text-3xl lg:text-4xl font-bold text-[var(--color-text-main)] mb-3">
             HVACR Installation Components
           </h1>
-          <p className="text-[var(--color-text-muted)] text-sm max-w-xl">
+          <p className="text-[var(--color-text-muted)] text-sm sm:text-base max-w-3xl leading-relaxed">
             Contact your local manufacturer representative or call us at{" "}
-            <a href="tel:7329858226" className="text-[var(--color-primary)] font-semibold hover:underline">
+            <a href="tel:7329858226" className="text-[var(--color-primary-2)] font-semibold hover:underline">
               (732) 985-8226
             </a>{" "}
             to place a wholesale order. Items ship from our centrally located warehouse throughout the USA and Canada.
           </p>
         </div>
 
-        {/* Category sections */}
         {categories.map((cat) => (
           <div key={cat} className="mb-14">
             <div className="flex items-center gap-3 mb-6">
               <h2 className="text-lg font-bold text-[var(--color-text-main)]">{cat}</h2>
-              <div className="flex-1 h-px bg-gray-100" />
+              <div className="flex-1 h-px bg-[var(--color-border-soft)]" />
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -209,31 +204,27 @@ export default function CataloguePage() {
                 .map((product) => (
                   <div
                     key={product.sku}
-                    className="bg-[var(--color-surface)] rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col gap-3"
+                    className="glass-card rounded-2xl p-6 hover:-translate-y-1 hover:border-[var(--color-border-strong)] transition-all duration-300 flex flex-col gap-3"
                   >
-                    {/* SKU badge */}
-                    <span className="inline-block self-start px-2 py-0.5 rounded-md bg-orange-50 text-[var(--color-primary)] text-[10px] font-bold tracking-widest">
+                    <span className="glass-chip inline-block self-start px-2 py-0.5 rounded-md text-[var(--color-primary-2)] text-[10px] font-bold tracking-widest">
                       {product.sku}
                     </span>
 
-                    {/* Name */}
                     <h3 className="font-bold text-[var(--color-text-main)] text-sm leading-snug">
                       {product.name}
                     </h3>
 
-                    {/* Description */}
                     <p className="text-xs text-[var(--color-text-muted)] leading-relaxed flex-1">
                       {product.description}
                     </p>
 
-                    {/* Footer row */}
-                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                    <div className="flex items-center justify-between pt-2 border-t border-[var(--color-border-soft)]">
                       <span className="text-xs text-[var(--color-text-muted)]">
                         Sold per: <span className="font-semibold text-[var(--color-text-main)]">{product.unit}</span>
                       </span>
                       <a
                         href="mailto:info@marketair.com"
-                        className="text-xs font-semibold text-[var(--color-primary)] hover:underline"
+                        className="text-xs font-semibold text-[var(--color-primary-2)] hover:underline"
                       >
                         Inquire →
                       </a>
@@ -244,14 +235,13 @@ export default function CataloguePage() {
           </div>
         ))}
 
-        {/* Footer note */}
-        <div className="border-t border-gray-100 pt-10 text-center">
+        <div className="glass-card rounded-2xl p-6 sm:p-8 text-center border-[var(--color-border-soft)]">
           <p className="text-xs text-[var(--color-text-muted)]">
             This catalogue is for trade and wholesale customers only. All orders placed through your regional manufacturer representative.
           </p>
           <p className="text-xs text-[var(--color-text-muted)] mt-1">
             FOR SHIPMENTS TO CANADA, PLEASE CALL{" "}
-            <a href="tel:7329858226" className="text-[var(--color-primary)] font-semibold hover:underline">
+            <a href="tel:7329858226" className="text-[var(--color-primary-2)] font-semibold hover:underline">
               (732) 985-8226
             </a>
           </p>

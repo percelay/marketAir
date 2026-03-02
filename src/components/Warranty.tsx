@@ -2,32 +2,28 @@ import { ShieldCheck } from "lucide-react";
 
 export default function Warranty() {
   return (
-    <section id="warranty" className="py-20 bg-[var(--color-bg)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-3">
-            Warranty
-          </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-[var(--color-text-main)]">
-            Warranty Policy
-          </h2>
+    <section id="warranty" className="site-section section-shell">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mb-10 animate-rise">
+          <p className="eyebrow mb-3">Warranty</p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-[var(--color-text-main)]">Warranty Policy</h2>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Icon card */}
-          <div className="lg:col-span-1 bg-[var(--color-primary)] rounded-2xl p-8 flex flex-col justify-between">
-            <ShieldCheck className="w-10 h-10 text-white mb-6" />
+          <div className="lg:col-span-1 glass-card-strong rounded-2xl p-8 flex flex-col justify-between">
+            <div className="w-12 h-12 rounded-xl glass-chip flex items-center justify-center mb-6">
+              <ShieldCheck className="w-7 h-7 text-[var(--color-primary)]" />
+            </div>
             <div>
-              <p className="text-white/70 text-sm uppercase tracking-widest font-semibold mb-1">
+              <p className="text-[var(--color-text-muted)] text-sm uppercase tracking-widest font-semibold mb-1">
                 Coverage Period
               </p>
-              <p className="text-white text-4xl font-bold">1 Year</p>
-              <p className="text-white/80 text-sm mt-2">from date of purchase</p>
+              <p className="text-[var(--color-text-main)] text-4xl font-bold">1 Year</p>
+              <p className="text-[var(--color-text-muted)] text-sm mt-2">from date of purchase</p>
             </div>
           </div>
 
-          {/* Text */}
-          <div className="lg:col-span-2 bg-[var(--color-surface)] rounded-2xl p-8 shadow-sm space-y-4 text-sm text-[var(--color-text-muted)] leading-relaxed">
+          <div className="lg:col-span-2 glass-card rounded-2xl p-8 space-y-4 text-sm text-[var(--color-text-muted)] leading-relaxed">
             <p>
               WARRANTIES: Goods manufactured and/or supplied by MarketAir, Inc.
               are warranted to be free from defects in materials and workmanship

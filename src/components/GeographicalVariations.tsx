@@ -81,8 +81,8 @@ function VersionStatic() {
   return (
     <div>
       <div className="mb-6">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[var(--color-primary)] text-xs font-semibold uppercase tracking-widest">
-          Version 1 — Static Reference
+        <span className="glass-chip inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[var(--color-primary-2)] text-xs font-semibold uppercase tracking-widest">
+          Version 1 - Static Reference
         </span>
       </div>
 
@@ -90,16 +90,16 @@ function VersionStatic() {
         {reps.map((r) => (
           <div
             key={r.territory}
-            className="bg-[var(--color-bg)] rounded-2xl p-5 shadow-sm border border-gray-100 flex gap-4 items-start"
+            className="glass-card rounded-2xl p-5 flex gap-4 items-start transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-border-strong)]"
           >
             {/* Left accent line */}
             <div className="flex flex-col items-center pt-1 shrink-0">
               <MapPin className="w-4 h-4 text-[var(--color-primary)]" />
-              <div className="w-px flex-1 bg-orange-200 mt-1 min-h-[2rem]" />
+              <div className="w-px flex-1 mt-1 min-h-[2rem] bg-[var(--color-border-strong)]" />
             </div>
             {/* Content */}
             <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-0.5">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary-2)] mb-0.5">
                 {r.territory}
               </p>
               <p className="text-xs text-[var(--color-text-muted)] mb-2 leading-relaxed">
@@ -338,12 +338,12 @@ function VersionInteractive() {
   return (
     <div>
       <div className="mb-6">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[var(--color-primary)] text-xs font-semibold uppercase tracking-widest">
-          Version 2 — Interactive U.S. Territory Map
+        <span className="glass-chip inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[var(--color-primary-2)] text-xs font-semibold uppercase tracking-widest">
+          Version 2 - Interactive U.S. Territory Map
         </span>
       </div>
 
-      <div className="rounded-2xl border border-gray-200 bg-gradient-to-b from-orange-50/40 to-white p-3 md:p-4">
+      <div className="glass-card-strong rounded-2xl p-3 md:p-4">
         <div className="overflow-x-auto">
           <div
             className="min-w-[1080px]"
@@ -367,12 +367,12 @@ function VersionInteractive() {
                     ? isActive
                       ? REGION_FILL_ACTIVE[regionId]
                       : REGION_FILL[regionId]
-                    : "#e2e8f0";
+                    : "rgba(186, 218, 238, 0.65)";
                   const strokeColor = regionId
                     ? isActive
-                      ? "#ea580c"
+                      ? "rgba(95, 201, 255, 1)"
                       : fillColor
-                    : "#ffffff";
+                    : "rgba(210, 236, 255, 0.85)";
 
                   return (
                     <path
@@ -395,7 +395,7 @@ function VersionInteractive() {
                 x={520}
                 y={592}
                 textAnchor="middle"
-                fill="#64748b"
+                fill="rgba(208, 239, 255, 0.8)"
                 fontSize="14"
                 fontWeight="600"
               >
@@ -427,20 +427,20 @@ function VersionInteractive() {
                       y1={region.mapPoint.y}
                       x2={lineEndX}
                       y2={region.labelPoint.y}
-                      stroke={isActive ? "#ea580c" : "#94a3b8"}
+                      stroke={isActive ? "rgba(146, 214, 255, 0.95)" : "rgba(146, 214, 255, 0.5)"}
                       strokeWidth={isActive ? 2.6 : 1.8}
                     />
                     <circle
                       cx={region.mapPoint.x}
                       cy={region.mapPoint.y}
                       r={isActive ? 5.8 : 4.6}
-                      fill={isActive ? "#ea580c" : "#64748b"}
+                      fill={isActive ? "rgba(95, 201, 255, 1)" : "rgba(123, 187, 224, 0.8)"}
                     />
                     <text
                       x={region.labelPoint.x}
                       y={region.labelPoint.y - 16}
                       textAnchor={region.labelAnchor}
-                      fill={isActive ? "#9a3412" : "#64748b"}
+                      fill={isActive ? "rgba(146, 214, 255, 1)" : "rgba(160, 192, 216, 1)"}
                       fontSize="12"
                       fontWeight="700"
                       style={{ letterSpacing: "0.08em" }}
@@ -451,7 +451,7 @@ function VersionInteractive() {
                       x={region.labelPoint.x}
                       y={region.labelPoint.y}
                       textAnchor={region.labelAnchor}
-                      fill={isActive ? "#9a3412" : "#1f2937"}
+                      fill={isActive ? "rgba(233, 246, 255, 1)" : "rgba(233, 246, 255, 0.9)"}
                       fontSize="16"
                       fontWeight="800"
                     >
@@ -464,7 +464,7 @@ function VersionInteractive() {
                           x={region.labelPoint.x}
                           y={region.labelPoint.y + 18 + index * 14}
                           textAnchor={region.labelAnchor}
-                          fill="#475569"
+                          fill="rgba(160, 192, 216, 1)"
                           fontSize="11.5"
                           fontWeight="500"
                         >
@@ -533,17 +533,17 @@ function VersionWizard() {
   return (
     <div>
       <div className="mb-6">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[var(--color-primary)] text-xs font-semibold uppercase tracking-widest">
-          Version 3 — Step-by-Step Finder
+        <span className="glass-chip inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[var(--color-primary-2)] text-xs font-semibold uppercase tracking-widest">
+          Version 3 - Step-by-Step Finder
         </span>
       </div>
 
       <div className="max-w-xl">
-        <div className="bg-[var(--color-surface)] rounded-2xl p-8 shadow-sm space-y-6">
+        <div className="glass-card-strong rounded-2xl p-6 sm:p-8 space-y-6">
           {/* Step 1 */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-2">
-              Step 1 — Select Country
+            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-dim)] mb-2">
+              Step 1 - Select Country
             </p>
             <div className="relative">
               <select
@@ -552,9 +552,9 @@ function VersionWizard() {
                   setCountry(e.target.value as Region | "");
                   setTerritory("");
                 }}
-                className="w-full appearance-none bg-[var(--color-bg)] border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm font-medium text-[var(--color-text-main)] focus:outline-none focus:border-[var(--color-primary)] transition-colors duration-200"
+                className="w-full appearance-none glass-card rounded-xl px-4 py-3 pr-10 text-sm font-medium text-[var(--color-text-main)] bg-[rgba(8,21,45,0.75)] focus:outline-none focus:border-[var(--color-border-strong)]"
               >
-                <option value="">— Choose country —</option>
+                <option value="">Choose country</option>
                 <option value="USA">United States</option>
                 <option value="Canada">Canada</option>
               </select>
@@ -565,16 +565,16 @@ function VersionWizard() {
           {/* Step 2 */}
           {country && (
             <div className="transition-all duration-200">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-2">
-                Step 2 — Select Territory
+              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-dim)] mb-2">
+                Step 2 - Select Territory
               </p>
               <div className="relative">
                 <select
                   value={territory}
                   onChange={(e) => setTerritory(e.target.value)}
-                  className="w-full appearance-none bg-[var(--color-bg)] border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm font-medium text-[var(--color-text-main)] focus:outline-none focus:border-[var(--color-primary)] transition-colors duration-200"
+                  className="w-full appearance-none glass-card rounded-xl px-4 py-3 pr-10 text-sm font-medium text-[var(--color-text-main)] bg-[rgba(8,21,45,0.75)] focus:outline-none focus:border-[var(--color-border-strong)]"
                 >
-                  <option value="">— Choose territory —</option>
+                  <option value="">Choose territory</option>
                   {regionOptions.map((r) => (
                     <option key={r} value={r}>
                       {r}
@@ -588,8 +588,8 @@ function VersionWizard() {
 
           {/* Result */}
           {result && (
-            <div className="bg-[var(--color-bg)] rounded-xl p-5 border border-orange-100 transition-all duration-200">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-3">
+            <div className="glass-card rounded-xl p-5 border border-[var(--color-border)] transition-all duration-200">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary-2)] mb-3">
                 Your Representative
               </p>
               <p className="text-2xl font-bold text-[var(--color-text-main)] mb-2">
@@ -601,14 +601,14 @@ function VersionWizard() {
               <div className="flex gap-2 flex-wrap">
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--color-primary)] text-white text-sm font-semibold hover:opacity-90 hover:-translate-y-0.5 transition-all duration-200 shadow-sm"
+                  className="btn-primary px-4 py-2 text-sm"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   Contact MarketAir
                 </a>
                 <button
                   onClick={reset}
-                  className="inline-flex items-center px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium text-[var(--color-text-muted)] hover:border-gray-400 hover:text-[var(--color-text-main)] transition-colors duration-200"
+                  className="btn-glass px-4 py-2 text-sm"
                 >
                   Start Over
                 </button>
@@ -635,11 +635,11 @@ export default function GeographicalVariations() {
   const [tab, setTab] = useState<TabId>("static");
 
   return (
-    <section id="reps" className="py-20 bg-[var(--color-surface)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="reps" className="site-section section-alt section-shell">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="mb-4">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-3">
+        <div className="mb-4 animate-rise">
+          <p className="eyebrow mb-3">
             Manufacturer Reps
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-[var(--color-text-main)] mb-4">
@@ -649,22 +649,24 @@ export default function GeographicalVariations() {
             In the trade or want to buy wholesale? You can search for manufacturer
             representatives by zipcode.
           </p>
-          <p className="text-sm font-semibold text-[var(--color-primary)]">
+          <p className="text-sm font-semibold text-[var(--color-primary-2)]">
             FOR SHIPMENTS TO CANADA, PLEASE CALL (732) 985-8226 to place your
             credit card order!
           </p>
         </div>
 
         {/* Tab switcher */}
-        <div className="flex gap-2 mb-8 mt-8">
+        <div className="flex flex-wrap gap-2 mb-8 mt-8" role="tablist" aria-label="Representative finder modes">
           {tabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
+              role="tab"
+              aria-selected={tab === t.id}
               className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                 tab === t.id
-                  ? "bg-[var(--color-primary)] text-white shadow-sm"
-                  : "bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:text-[var(--color-primary)] border border-gray-200"
+                  ? "btn-primary"
+                  : "btn-glass text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]"
               }`}
             >
               {t.label}
