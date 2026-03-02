@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, ChevronDown, ChevronRight, Phone, Users } from "lucide-react";
+import { MapPin, ChevronDown, Phone, Users } from "lucide-react";
 
 // ─── Shared data ────────────────────────────────────────────────────────────
 
@@ -119,6 +119,24 @@ function VersionStatic() {
 
 function VersionInteractive() {
   const [active, setActive] = useState<number | null>(null);
+  const activeRep = active !== null ? reps[active] : null;
+  const activeCountry =
+    activeRep?.territory.includes("Canada") ? "canada" : activeRep ? "usa" : null;
+
+  const hotspots = [
+    { repIndex: 0, pinX: 255, pinY: 188, labelX: 140, labelY: 122, align: "right" as const },
+    { repIndex: 1, pinX: 625, pinY: 198, labelX: 850, labelY: 126, align: "left" as const },
+    { repIndex: 2, pinX: 230, pinY: 286, labelX: 112, labelY: 264, align: "right" as const },
+    { repIndex: 3, pinX: 250, pinY: 378, labelX: 112, labelY: 392, align: "right" as const },
+    { repIndex: 4, pinX: 454, pinY: 422, labelX: 468, labelY: 554, align: "center" as const },
+    { repIndex: 5, pinX: 550, pinY: 350, labelX: 548, labelY: 264, align: "center" as const },
+    { repIndex: 6, pinX: 715, pinY: 320, labelX: 870, labelY: 272, align: "left" as const },
+    { repIndex: 7, pinX: 700, pinY: 360, labelX: 890, labelY: 350, align: "left" as const },
+    { repIndex: 8, pinX: 698, pinY: 418, labelX: 870, labelY: 426, align: "left" as const },
+    { repIndex: 9, pinX: 618, pinY: 448, labelX: 610, labelY: 568, align: "center" as const },
+    { repIndex: 10, pinX: 714, pinY: 505, labelX: 822, labelY: 570, align: "left" as const },
+    { repIndex: 11, pinX: 368, pinY: 346, labelX: 302, labelY: 256, align: "right" as const },
+  ];
 
   return (
     <div>
@@ -128,34 +146,134 @@ function VersionInteractive() {
         </span>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Region list */}
-        <div className="lg:col-span-1 flex flex-col gap-2">
-          {reps.map((r, i) => (
-            <button
-              key={r.territory}
-              onMouseEnter={() => setActive(i)}
-              onMouseLeave={() => setActive(null)}
-              onClick={() => setActive(active === i ? null : i)}
-              className={`w-full text-left px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200 flex items-center justify-between group ${
-                active === i
-                  ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-md -translate-y-0.5"
-                  : "bg-[var(--color-bg)] text-[var(--color-text-main)] border-gray-100 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-              }`}
-            >
-              <span>{r.territory}</span>
-              <ChevronRight
-                className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
-                  active === i ? "translate-x-0.5" : ""
+      <div className="grid lg:grid-cols-3 gap-6 items-start">
+        <div className="lg:col-span-2">
+          <div
+            onMouseLeave={() => setActive(null)}
+            className="relative overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-b from-orange-50/40 to-white p-3"
+          >
+            <svg viewBox="0 0 1000 620" className="w-full h-auto">
+              {/* Canada */}
+              <path
+                d="M130 165 L170 145 L230 136 L300 120 L360 128 L425 112 L500 118 L575 103 L650 112 L724 125 L782 147 L828 185 L790 214 L742 222 L680 210 L622 220 L560 212 L495 225 L430 212 L362 224 L300 210 L244 216 L188 201 L148 183 Z"
+                className={`transition-colors duration-200 ${
+                  activeCountry === "canada"
+                    ? "fill-orange-100 stroke-orange-500"
+                    : "fill-slate-100 stroke-slate-400"
                 }`}
+                strokeWidth={2}
               />
-            </button>
-          ))}
+
+              {/* USA */}
+              <path
+                d="M170 256 L210 238 L270 242 L320 252 L370 246 L430 256 L490 250 L560 258 L620 246 L676 258 L730 282 L764 318 L748 346 L766 392 L744 432 L705 465 L650 472 L612 456 L575 470 L532 465 L502 452 L460 462 L410 458 L368 447 L332 422 L292 423 L254 405 L228 377 L200 345 L172 309 Z"
+                className={`transition-colors duration-200 ${
+                  activeCountry === "usa"
+                    ? "fill-orange-50 stroke-orange-500"
+                    : "fill-white stroke-slate-500"
+                }`}
+                strokeWidth={2}
+              />
+
+              {/* Alaska */}
+              <path
+                d="M120 460 L150 450 L186 465 L172 492 L138 500 L108 482 Z"
+                className="fill-slate-100 stroke-slate-400"
+                strokeWidth={1.5}
+              />
+
+              {/* Hawaii */}
+              <circle cx={265} cy={525} r={5} className="fill-slate-300" />
+              <circle cx={282} cy={536} r={4} className="fill-slate-300" />
+              <circle cx={301} cy={542} r={3.5} className="fill-slate-300" />
+
+              {/* Labels */}
+              <text x={490} y={174} textAnchor="middle" className="fill-slate-500 text-[20px] font-semibold">
+                Canada
+              </text>
+              <text x={500} y={352} textAnchor="middle" className="fill-slate-500 text-[20px] font-semibold">
+                United States
+              </text>
+
+              {/* Connector lines and pins */}
+              {hotspots.map((spot) => {
+                const rep = reps[spot.repIndex];
+                const isActive = active === spot.repIndex;
+
+                return (
+                  <g
+                    key={rep.territory}
+                    onMouseEnter={() => setActive(spot.repIndex)}
+                    onClick={() => setActive(spot.repIndex)}
+                    className="cursor-pointer"
+                  >
+                    <line
+                      x1={spot.pinX}
+                      y1={spot.pinY}
+                      x2={spot.labelX}
+                      y2={spot.labelY}
+                      className={`transition-colors duration-200 ${
+                        isActive ? "stroke-orange-500" : "stroke-slate-400"
+                      }`}
+                      strokeWidth={2}
+                    />
+                    <circle
+                      cx={spot.pinX}
+                      cy={spot.pinY}
+                      r={7}
+                      className={`transition-colors duration-200 ${
+                        isActive ? "fill-orange-500" : "fill-slate-500"
+                      }`}
+                    />
+                    <circle
+                      cx={spot.pinX}
+                      cy={spot.pinY}
+                      r={11}
+                      className={`transition-all duration-200 ${
+                        isActive ? "stroke-orange-500 opacity-80" : "stroke-transparent opacity-0"
+                      }`}
+                      strokeWidth={2}
+                      fill="none"
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+
+            {hotspots.map((spot) => {
+              const rep = reps[spot.repIndex];
+              const isActive = active === spot.repIndex;
+              const left = `${(spot.labelX / 1000) * 100}%`;
+              const top = `${(spot.labelY / 620) * 100}%`;
+              const transform =
+                spot.align === "left"
+                  ? "translate(-100%, -50%)"
+                  : spot.align === "center"
+                  ? "translate(-50%, -50%)"
+                  : "translate(0, -50%)";
+
+              return (
+                <button
+                  key={`${rep.territory}-label`}
+                  onMouseEnter={() => setActive(spot.repIndex)}
+                  onFocus={() => setActive(spot.repIndex)}
+                  onClick={() => setActive(spot.repIndex)}
+                  className={`absolute z-10 px-3 py-1.5 rounded-lg border text-xs md:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+                    isActive
+                      ? "bg-orange-500 border-orange-500 text-white shadow-sm"
+                      : "bg-white border-gray-200 text-[var(--color-text-main)] hover:border-orange-400 hover:text-orange-600"
+                  }`}
+                  style={{ left, top, transform }}
+                >
+                  {rep.territory}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Detail panel */}
-        <div className="lg:col-span-2 flex items-start">
-          {active !== null ? (
+        <div className="lg:col-span-1 flex items-start">
+          {activeRep ? (
             <div className="w-full bg-[var(--color-surface)] rounded-2xl p-8 shadow-sm border border-gray-100 transition-all duration-200">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-[var(--color-primary)] flex items-center justify-center">
@@ -166,7 +284,7 @@ function VersionInteractive() {
                     Territory
                   </p>
                   <p className="font-bold text-[var(--color-text-main)] text-lg">
-                    {reps[active].territory}
+                    {activeRep.territory}
                   </p>
                 </div>
               </div>
@@ -176,7 +294,7 @@ function VersionInteractive() {
                     States / Provinces
                   </p>
                   <p className="text-[var(--color-text-main)] font-medium text-sm leading-relaxed">
-                    {reps[active].states}
+                    {activeRep.states}
                   </p>
                 </div>
                 <div className="bg-[var(--color-bg)] rounded-xl p-4">
@@ -184,7 +302,7 @@ function VersionInteractive() {
                     Representative
                   </p>
                   <p className="text-[var(--color-primary)] font-bold text-xl">
-                    {reps[active].rep}
+                    {activeRep.rep}
                   </p>
                 </div>
               </div>
