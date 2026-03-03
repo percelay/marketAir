@@ -57,8 +57,8 @@ export default function Header() {
               href="#services"
               className="ml-3 px-5 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
               style={{
-                background: "linear-gradient(135deg, #5bcaf7 0%, #1e6fa8 100%)",
-                boxShadow: "0 0 16px rgba(91,202,247,0.25)",
+                background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%)",
+                boxShadow: "0 8px 18px rgba(16,33,58,0.14)",
               }}
             >
               Buy Products
@@ -84,7 +84,7 @@ export default function Header() {
           className="md:hidden border-t"
           style={{
             borderColor: "var(--color-border)",
-            background: "rgba(6,14,30,0.95)",
+            background: "rgba(255,255,255,0.98)",
             backdropFilter: "blur(24px)",
             WebkitBackdropFilter: "blur(24px)",
           }}
@@ -95,7 +95,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-white/5"
+                className="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-[rgba(18,148,216,0.08)]"
                 style={{ color: "var(--color-text-muted)" }}
               >
                 {link.label}
@@ -106,8 +106,8 @@ export default function Header() {
               onClick={() => setMobileOpen(false)}
               className="mt-2 px-5 py-3 rounded-xl text-sm font-semibold text-white text-center transition-all duration-200 hover:opacity-90"
               style={{
-                background: "linear-gradient(135deg, #5bcaf7 0%, #1e6fa8 100%)",
-                boxShadow: "0 0 16px rgba(91,202,247,0.20)",
+                background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%)",
+                boxShadow: "0 8px 18px rgba(16,33,58,0.14)",
               }}
             >
               Buy Products

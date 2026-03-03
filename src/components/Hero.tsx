@@ -2,130 +2,61 @@ import Image from "next/image";
 import { ArrowRight, MapPin } from "lucide-react";
 
 export default function Hero() {
-  const titleOutline =
-    "-1px -1px 0 rgba(255,255,255,0.95), 0 -1px 0 rgba(255,255,255,0.95), 1px -1px 0 rgba(255,255,255,0.95), -1px 0 0 rgba(255,255,255,0.95), 1px 0 0 rgba(255,255,255,0.95), -1px 1px 0 rgba(255,255,255,0.95), 0 1px 0 rgba(255,255,255,0.95), 1px 1px 0 rgba(255,255,255,0.95), 0 6px 20px rgba(0,0,0,0.34)";
-
   return (
-    <section className="relative h-screen min-h-[620px] flex items-center">
-      {/* Background image */}
-      <Image
-        src="/images/hvac3.jpg"
-        alt="HVACR installation"
-        fill
-        className="object-cover"
-        priority
-      />
+    <section className="site-section section-shell pt-20 sm:pt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1.05fr_0.95fr] items-stretch">
+          <div className="glass-card-strong rounded-3xl p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+            <div className="glass-chip inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--color-primary-2)] mb-6 self-start">
+              <span className="w-1.5 h-1.5 rounded-full glow-dot bg-[var(--color-accent)]" />
+              HVACR Industry Specialists
+            </div>
 
-      {/* Layered icy blue gradient overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(6,14,30,0.88) 0%, rgba(9,35,70,0.80) 40%, rgba(6,14,30,0.75) 100%)",
-        }}
-      />
-      {/* Subtle radial glow at top-left */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 55% 50% at 0% 40%, rgba(30,111,168,0.30) 0%, transparent 70%)",
-        }}
-      />
+            <div className="relative w-full max-w-[560px] aspect-[11/3] mb-6">
+              <Image
+                src="/images/marketair logo.avif"
+                alt="MarketAir"
+                fill
+                sizes="(min-width: 1024px) 560px, (min-width: 768px) 500px, 90vw"
+                className="object-contain object-left"
+                priority
+              />
+            </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="max-w-3xl">
+            <p className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--color-primary-3)] mb-4">
+              Components for Environmental Systems
+            </p>
+            <p className="text-base sm:text-lg leading-relaxed text-[var(--color-text-muted)] max-w-2xl mb-8">
+              Importer, exporter, manufacturer, and distributor specializing in
+              installation components and accessories for the HVACR industry.
+            </p>
 
-          {/* Eyebrow */}
-          <div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-7"
-            style={{
-              background: "rgba(91,202,247,0.10)",
-              border: "1px solid rgba(91,202,247,0.25)",
-              backdropFilter: "blur(8px)",
-              color: "var(--color-primary-2)",
-            }}
-          >
-            <span
-              className="w-1.5 h-1.5 rounded-full glow-dot"
-              style={{ background: "var(--color-primary)" }}
-            />
-            HVACR Industry Specialists
+            <div className="flex flex-wrap gap-3">
+              <a href="#services" className="btn-primary px-6 py-3 text-sm sm:text-base">
+                Buy Products
+                <ArrowRight className="w-4 h-4" />
+              </a>
+              <a href="#reps" className="btn-glass px-6 py-3 text-sm sm:text-base">
+                <MapPin className="w-4 h-4 text-[var(--color-primary)]" />
+                Search Reps
+              </a>
+            </div>
           </div>
 
-          {/* Headline */}
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-[8.2rem] font-black tracking-tight leading-[0.98] mb-4">
-            <span
-              style={{
-                color: "#74d680",
-                textShadow: titleOutline,
-              }}
-            >
-              Market
-            </span>
-            <span
-              style={{
-                color: "#5bcaf7",
-                textShadow: titleOutline,
-              }}
-            >
-              Air
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            className="text-xl lg:text-2xl font-semibold tracking-tight mb-6"
-            style={{ color: "rgba(233,246,255,0.95)" }}
-          >
-            Components for Environmental Systems
-          </p>
-
-          {/* Subheadline */}
-          <p className="text-lg leading-relaxed mb-10 max-w-2xl" style={{ color: "rgba(186,230,253,0.70)" }}>
-            Importer, exporter, manufacturer, and distributor specializing in
-            installation components and accessories for the HVACR industry.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="#services"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              style={{
-                background: "linear-gradient(135deg, #5bcaf7 0%, #1e6fa8 100%)",
-                boxShadow: "0 0 20px rgba(91,202,247,0.30), 0 4px 16px rgba(6,14,30,0.50)",
-              }}
-            >
-              Buy Products
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="#reps"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold transition-all duration-300 hover:-translate-y-1"
-              style={{
-                background: "rgba(255,255,255,0.07)",
-                border: "1px solid rgba(91,202,247,0.25)",
-                backdropFilter: "blur(12px)",
-                color: "var(--color-text-main)",
-                boxShadow: "0 4px 16px rgba(6,14,30,0.40)",
-              }}
-            >
-              <MapPin className="w-4 h-4" style={{ color: "var(--color-primary)" }} />
-              Search Reps
-            </a>
+          <div className="glass-card-strong rounded-3xl p-2 sm:p-3">
+            <div className="relative rounded-[1.2rem] overflow-hidden min-h-[320px] sm:min-h-[380px] h-full border border-[var(--color-border-soft)]">
+              <Image
+                src="/images/hvacdiagram.jpeg"
+                alt="HVAC system diagram"
+                fill
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover object-center"
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Bottom fade into site bg */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-        style={{
-          background: "linear-gradient(to bottom, transparent 0%, var(--color-bg) 100%)",
-        }}
-      />
     </section>
   );
 }
