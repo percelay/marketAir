@@ -390,6 +390,13 @@ export default function GeographicalVariations() {
           >
             <g transform={`translate(${MAP_OFFSET_X} ${MAP_OFFSET_Y}) scale(${MAP_SCALE})`}>
               <defs>
+                {/* Morphology filter: outlines the merged territory shape, hiding internal state borders */}
+                <filter id="territory-border" x="-5%" y="-5%" width="110%" height="110%" colorInterpolationFilters="sRGB">
+                  <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="dilated"/>
+                  <feComposite in="dilated" in2="SourceAlpha" operator="out" result="ring"/>
+                  <feFlood floodColor="#111111" result="black"/>
+                  <feComposite in="black" in2="ring" operator="in"/>
+                </filter>
                 <clipPath id="canada-west-half" clipPathUnits="objectBoundingBox">
                   <rect x="0" y="0" width="0.5" height="1" />
                 </clipPath>
@@ -453,8 +460,6 @@ export default function GeographicalVariations() {
               {Object.entries(US_STATE_PATHS).map(([code, state]) => {
                 const regionId = STATE_TO_REGION[code];
                 const isActive = regionId ? regionId === activeRegionId : false;
-                const stateStroke = isActive ? "#111111" : "transparent";
-                const stateStrokeWidth = isActive ? 3 : 0;
                 const fillColor = regionId
                   ? isActive
                     ? REGION_FILL_ACTIVE[regionId]
@@ -468,8 +473,7 @@ export default function GeographicalVariations() {
                     <path
                       d={state.d}
                       fill={fillColor}
-                      stroke={stateStroke}
-                      strokeWidth={stateStrokeWidth}
+                      stroke="none"
                       transform={stateTransform}
                       className={
                         regionId
@@ -483,20 +487,59 @@ export default function GeographicalVariations() {
                       const splitFill = isSplitActive
                         ? REGION_FILL_ACTIVE[overlay.regionId]
                         : REGION_FILL[overlay.regionId];
-                      const splitStroke = isSplitActive ? "#111111" : "transparent";
-                      const splitStrokeWidth = isSplitActive ? 3 : 0;
 
                       return (
                         <path
                           key={overlay.id}
                           d={state.d}
                           fill={splitFill}
-                          stroke={splitStroke}
-                          strokeWidth={splitStrokeWidth}
+                          stroke="none"
                           clipPath={`url(#${overlay.id})`}
                           transform={stateTransform}
                           className="cursor-pointer transition-colors duration-150"
                           onMouseEnter={() => activate(overlay.regionId)}
+                        />
+                      );
+                    })}
+                  </g>
+                );
+              })}
+
+              {/* Territory boundary overlays — always-on black outlines using morphology filter */}
+              {US_REGIONS.map((region) => {
+                const splitOverlaysForRegion = SPLIT_STATE_OVERLAYS.filter(
+                  (o) => o.regionId === region.id
+                );
+                return (
+                  <g
+                    key={`tborder-${region.id}`}
+                    filter="url(#territory-border)"
+                    pointerEvents="none"
+                  >
+                    {region.stateCodes.map((code) => {
+                      const state = US_STATE_PATHS[code as StateCode];
+                      if (!state) return null;
+                      const stateTransform = STATE_TRANSFORMS[code as StateCode];
+                      return (
+                        <path
+                          key={code}
+                          d={state.d}
+                          fill="black"
+                          transform={stateTransform}
+                        />
+                      );
+                    })}
+                    {splitOverlaysForRegion.map((overlay) => {
+                      const state = US_STATE_PATHS[overlay.code];
+                      if (!state) return null;
+                      const stateTransform = STATE_TRANSFORMS[overlay.code];
+                      return (
+                        <path
+                          key={overlay.id}
+                          d={state.d}
+                          fill="black"
+                          clipPath={`url(#${overlay.id})`}
+                          transform={stateTransform}
                         />
                       );
                     })}
